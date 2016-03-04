@@ -1,0 +1,5 @@
+[Thu, 03 Mar 16 10:12:00 +0100][DEBUG] Dispatcher has detected a cyclic routing causing stability problems
+[Thu, 03 Mar 16 10:12:00 +0100][DEBUG] #0 [internal function]: Phalcon\Mvc\Dispatcher->_throwDispatchException('Dispatcher has ...', 1)
+#1 [internal function]: Phalcon\Dispatcher->dispatch()
+#2 D:\wamp+php5.5\www\store\public\index.php(36): Phalcon\Mvc\Application->handle()
+#3 {main}
