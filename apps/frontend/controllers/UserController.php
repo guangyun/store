@@ -2,10 +2,10 @@
 namespace Store\Frontend\Controllers;
 
 use Store\Frontend\Models\Users;
-use Phalcon\Session\Bag;
 
 class UserController extends ControllerBase
 {
+    
     public function loginAction() {
         if($this->request->isPost()){
             $nick = $this->request->getPost('nick','trim');
@@ -17,27 +17,29 @@ class UserController extends ControllerBase
 
             if (!empty($user)){
                $user->login_ip = $this->getIp();
-               $user->counts++;
-               $bag = new Bag('user');
-               $bag->uid = $user->id;
-               $bag->nick = $user->nick;
-               $bag->authenticate = $this->getAuth($user);
+               $user->counts++;                     
                if($user->save()){
-                   $this->forwards('frontend/user/login');
+                   $this->session->set('back-auth', array(
+                       'id'=>$user->id,
+                       'nick'=>$user->nick,
+                       'time'=>$_SERVER['REQUEST_TIME'],
+                       'authenticate'=>$this->getAuth($user)
+                   ));
+                   $this->response->redirect('frontend/index/index');
                }
             }else{
                 $this->flash->error('用户名或密码错误');
-                exit();
             }            
         }
     }
     
     public function registerAction() {
         if($this->request->isPost()){
-            $user = new Users();
+            $user = $this->bag;
             $nick = $this->request->getPost('nick','trim');;
             if(Users::findFirst(array('nick=?0','bind'=>array(0=>$nick)))){
-                $this->forwards('frontend/user/login');
+                $this->flash->warning('用户已存在');
+                $this->forwards('user/login');
                 exit;
             }
             $user->nick = $nick;
@@ -45,10 +47,17 @@ class UserController extends ControllerBase
             $user->login_ip = $this->getIp();
             $user->reg_time = $_SERVER["REQUEST_TIME"];
             if ($user->create()){
-                $this->forwards('frontend/user/login');
+                $this->response->redirect('frontend/user/login');
                 exit;
             }
         }
+    }
+    
+    public function logoutAction(){
+            $this->session->remove('back-auth');
+            if(!$this->session->has('back-auth'))
+               $this->response->redirect('frontend/user/login');
+            $this->view->disable();
     }
     
 }

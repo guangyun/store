@@ -1,25 +1,29 @@
 <?php
 namespace Store\Frontend\Controllers;
 
-use Phalcon\Session\Bag;
-
 class ControllerAuth extends ControllerBase
 {
 
-    public $bag;
-
     public function initialize()
     {
-        $this->bag = new Bag('user');
-        if ($this->bag->has('user')) {
-            $this->forwards('frontend/user/login');
+        
+        if (!$this->session->has('back-auth')) {             
+           $this->response->redirect('frontend/user/login');
         }else{
-            if (!empty($this->bag->uid) && !empty($this->bag->nick) && $this->bag->authenticate == $this->getAuth(\Store\Frontend\Models\Users::findFirst($this->bag->uid))) {                               
-                //$this->forwards('frontend/index/index');
-            } else {
-                $this->forwards('frontend/user/login');
+            $user = $this->session->get('back-auth');
+            if (!empty($user['uid']) || !empty($user['nick'])) {                               
+                if($user['authenticate'] != $this->getAuth(\Store\Frontend\Models\Users::findFirst($this->bag->uid))){                    
+                    $this->response->redirect('frontend/user/login');               
+                }  
+            } else {                
+                $this->response->redirect('frontend/user/login');
+            }
+            $time = $_SERVER['REQUEST_TIME'];
+            if(($time-7200)>$user['time']){
+                $this->forwards('user/logout');
             }
         }
+        
         parent::initialize();
     }
 }

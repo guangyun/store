@@ -15,17 +15,17 @@ class ControllerBase extends Controller
     public function forwards($uri)
     {
         $uriParts = explode('/', $uri);
-        $params = array_slice($uriParts, 3);
+        $params = array_slice($uriParts, 2);
         return $this->dispatcher->forward(
             array(
-                'module'=> $uriParts[0],
-                'controller' => $uriParts[1],
-                'action' => $uriParts[2],
+                'namespace'=> 'Store\Frontend\Controllers',
+                'controller' => $uriParts[0],
+                'action' => $uriParts[1],
                 'params' => $params
             )
         );
     }
-    //获得ip地址ַ
+    //获得ip地址
     public function getIp()
     {
         if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown"))

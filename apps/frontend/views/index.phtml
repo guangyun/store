@@ -10,6 +10,7 @@
     </head>
     <body>
         <div class="container">
+        <?php echo $this->tag->linkTo('frontend/user/logout','退出')?>
             <?php echo $this->getContent(); ?>
         </div>
        <?php $this->assets->outputJs() ?>
