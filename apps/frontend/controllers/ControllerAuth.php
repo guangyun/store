@@ -20,7 +20,7 @@ class ControllerAuth extends ControllerBase
             }
             $time = $_SERVER['REQUEST_TIME'];
             if(($time-7200)>$user['time']){
-                $this->forwards('user/logout');
+                $this->forwards('user/newlogin/nickname/'.$user['nick']);
             }
         }
         
