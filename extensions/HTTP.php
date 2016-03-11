@@ -1,4 +1,5 @@
 <?php
+namespace Store\Extensions;
 /**
  * HTTP 协议相关辅助类
  */

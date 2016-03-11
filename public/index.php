@@ -32,6 +32,11 @@ try {
      * Include routes
      */
     require __DIR__ . '/../config/routes.php';
+    
+    /**
+     * include loader
+     */
+    require __DIR__ . '/../config/loader+.php';
 
     echo $application->handle()->getContent();
 

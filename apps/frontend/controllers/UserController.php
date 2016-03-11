@@ -2,6 +2,7 @@
 namespace Store\Frontend\Controllers;
 
 use Store\Frontend\Models\Users;
+use Store\Extensions\Captcha;
 
 class UserController extends ControllerBase
 {
@@ -10,7 +11,7 @@ class UserController extends ControllerBase
         if($this->request->isPost()){
             if ($this->request->hasPost('authcode')){
                 $code = $this->request->getPost('authcode','trim');
-                if($code!=$this->session->get('code')){
+                if($code!=$this->session->get('captcha')){
                     $this->flash->warning('验证码不正确');
                     return;
                 }
@@ -86,7 +87,14 @@ class UserController extends ControllerBase
      * 检测登陆错误次数
      */
     public function errcount() {
-        ;
+
+    }
+    
+    public function captchaAction() {
+        $captcha = new Captcha();
+        $captcha ->showImg();
+        $code = $captcha->getCaptcha();
+        $this->session->set('captcha', $code);        
     }
 }
 
