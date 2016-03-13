@@ -4,11 +4,14 @@ namespace Store\Frontend\Controllers;
 
 class IndexController extends ControllerAuth
 {
+ 
 
-
+    /*
+     * 首页
+     */
     public function indexAction()
     {
-        //$this->view->disable();
+        
     }
     
     public function testAction() {
@@ -16,5 +19,6 @@ class IndexController extends ControllerAuth
         
     }
 
+    
 }
 
