@@ -4,7 +4,7 @@ namespace Store\Frontend\Controllers;
 use Store\Frontend\Models\Users;
 use Store\Extensions\Captcha;
 
-class UserController extends ControllerBase
+class LoginController extends ControllerBase
 {
     
     public function loginAction() {
@@ -58,7 +58,7 @@ class UserController extends ControllerBase
             $nick = $this->request->getPost('nick','trim');
             if(Users::findFirst(array('nick=?0','bind'=>array(0=>$nick)))){
                 $this->flash->warning('用户已存在');
-                $this->forwards('user/login');
+                $this->forwards('login/login');
                 exit;
             }
             $user->nick = $nick;
@@ -66,7 +66,7 @@ class UserController extends ControllerBase
             $user->login_ip = $this->getIp();
             $user->reg_time = $_SERVER["REQUEST_TIME"];
             if ($user->create()){
-                $this->response->redirect('frontend/user/login');
+                $this->response->redirect('frontend/login/login');
                 exit;
             }
         }
@@ -75,7 +75,7 @@ class UserController extends ControllerBase
     public function logoutAction(){
             $this->session->remove('back-auth');
             if(!$this->session->has('back-auth'))
-               $this->response->redirect('frontend/user/login');
+               $this->response->redirect('frontend/login/login');
             $this->view->disable();
     }
     

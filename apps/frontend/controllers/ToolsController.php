@@ -30,7 +30,7 @@ class ToolsController extends ControllerAuth
     /*
      * 编辑模块
      */
-    public function addAction() {
+    public function editAction() {
         ;
     }
     
