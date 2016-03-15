@@ -8,7 +8,7 @@ class ControllerAuth extends ControllerBase
     {
         
         if (!$this->session->has('back-auth')) {             
-           $this->response->redirect('frontend/user/login');
+           $this->response->redirect('frontend/login/login');
         }else{
             $user = $this->session->get('back-auth');
             if (!empty($user['uid']) || !empty($user['nick'])) {                               
@@ -22,8 +22,7 @@ class ControllerAuth extends ControllerBase
             if(($time-7200)>$user['time']){
                 $this->forwards('login/newlogin/nickname/'.$user['nick']);
             }
-        }
-        
+        }        
         parent::initialize();
     }
 }
