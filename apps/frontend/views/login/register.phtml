@@ -1,0 +1,6 @@
+<form action='<?php echo $this->url->get('frontend/user/register'); ?>' method='post'>
+    <label for='nick'>用户名<input type='text' name='nick' placeholder='请输入用户名'></label>
+    <label for='nick'>&nbsp;密码<input type='password' name='passwd' placeholder='请输入密码'></label>
+    <input type='submit' value='注册'>
+    <?php echo $this->tag->linkTo(array('frontend/user/login', '登陆', 'class' => 'edit-btn')); ?>
+</form>
