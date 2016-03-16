@@ -99,12 +99,6 @@ class LoginController extends ControllerBase
     public function newloginAction()
     {}
 
-    /**
-     * 检测登陆错误次数
-     */
-    public function errcount()
-    {}
-
     public function captchaAction()
     {
         $captcha = new Captcha();

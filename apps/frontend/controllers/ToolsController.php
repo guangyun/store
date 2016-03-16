@@ -16,21 +16,21 @@ class ToolsController extends ControllerAuth
     /*
      * 显示模块
      */
-    public function listAction() {
-        ;
+    public function addAction() {
+        
     }
 
     /*
      * 添加模块
      */
-    public function addAction() {
+    public function editAction() {
         ;
     }
     
     /*
      * 编辑模块
      */
-    public function editAction() {
+    public function deleteAction() {
         ;
     }
     
