@@ -22,6 +22,7 @@ class ControllerAuth extends ControllerBase
             if(($time-7200)>$user['time']){
                 $this->forwards('login/newlogin/nickname/'.$user['nick']);
             }
+            $this->response->redirect('frontend/index/index');
         }        
         parent::initialize();
     }

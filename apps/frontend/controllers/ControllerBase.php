@@ -8,8 +8,18 @@ class ControllerBase extends Controller
 {
    
     public function initialize() {
-        $this->assets->addCss('css/bootstrap/bootstrap.min.css');
-        $this->assets->addJs('js/jquery/jquery-2.1.4.min.js')->addJs('js/bootstrap/bootstrap.min.js');
+        $this->assets->addCss('frontend/css/bootstrap.min.css')
+                     ->addCss('frontend/css/font-awesome.min.css')
+                     ->addCss('frontend/css/animate.min.css')
+                     ->addCss('frontend/css/style.min.css');
+        $this->assets->addJs('frontend/js/jquery.min.js')
+                     ->addJs('frontend/js/bootstrap.min.js')
+                     ->addJs('frontend/js/plugins/metisMenu/jquery.metisMenu.js')
+                     ->addJs('frontend/js/plugins/slimscroll/jquery.slimscroll.min.js')
+                     ->addJs('frontend/js/plugins/layer/layer.min.js')
+                     ->addJs('frontend/js/hplus.min.js')
+                     ->addJs('frontend/js/contabs.min.js')
+                     ->addJs('frontend/js/plugins/pace/pace.min.js');
     }
         
     public function forwards($uri)
@@ -40,6 +50,13 @@ class ControllerBase extends Controller
         return $ip;
     }
     
+    //通过ip查出ip所在地区的详细地址
+    public function getIpinfo($ip){
+        $url = "http://ip.taobao.com/service/getIpInfo.php?ip=$ip";
+        $ipinfo = $this->response->getContent($url);
+        return json_decode($ipinfo,true);
+    }
+    
     // 获得加密密码
     public function encryptPwd($str)
     {
@@ -48,6 +65,7 @@ class ControllerBase extends Controller
         $password = md5(md5($encry_after.$str.$encry_before));
         return $password;
     }
+    
     
     // 获得验证字符串
     public function getAuth($userinfo){

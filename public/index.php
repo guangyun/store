@@ -36,10 +36,10 @@ try {
     /**
      * include loader
      */
-    require __DIR__ . '/../config/loader+.php';
+    require __DIR__ . '/../config/loader.php';
 
     echo $application->handle()->getContent();
-
+    
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';
