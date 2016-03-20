@@ -1,7 +1,7 @@
 <?php
 namespace Store\Frontend\Controllers;
 
-use Store\Frontend\Models\Users;
+use Store\Frontend\Models\Admins;
 use Store\Extensions\Captcha;
 
 class LoginController extends ControllerBase
@@ -26,7 +26,7 @@ class LoginController extends ControllerBase
             $nick = $this->request->getPost('nick', 'trim');
             $passwd = $this->encryptPwd($this->request->getPost('passwd'));
             if (! empty($nick) && ! empty($passwd)) {
-                $user = Users::findFirst(array(
+                $user = Admins::findFirst(array(
                     'nick=?0 and passwd=?1',
                     'bind' => array(
                         $nick,

@@ -12,7 +12,7 @@ class ControllerAuth extends ControllerBase
         }else{
             $user = $this->session->get('back-auth');
             if (!empty($user['uid']) || !empty($user['nick'])) {                               
-                if($user['authenticate'] != $this->getAuth(\Store\Frontend\Models\Users::findFirst($this->bag->uid))){                    
+                if($user['authenticate'] != $this->getAuth(\Store\Frontend\Models\Admins::findFirst($user['id']))){                    
                     $this->response->redirect('frontend/login/login');
                 }  
             } else {                
@@ -22,7 +22,6 @@ class ControllerAuth extends ControllerBase
             if(($time-7200)>$user['time']){
                 $this->forwards('login/newlogin/nickname/'.$user['nick']);
             }
-            $this->response->redirect('frontend/index/index');
         }        
         parent::initialize();
     }
