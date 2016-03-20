@@ -80,6 +80,15 @@ class Lottery extends \Phalcon\Mvc\Model
     {
         return 'lottery';
     }
+    
+    /**
+     * 拿到最新三期数据
+     */
+    public function  getTre(){
+        $data = $this->find(array('columns'=>'qishu,one,two,three,four,five,six,seven','order'=>"qishu desc",'limit'=>'3'));
+        $this->dump($data);exit;
+        return $data;
+    }
 
     /**
      * Allows to query a set of records that match the specified conditions
