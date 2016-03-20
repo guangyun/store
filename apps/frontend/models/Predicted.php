@@ -1,7 +1,8 @@
 <?php
-namespace Store\Backend\Models;
 
-class Users extends \Phalcon\Mvc\Model
+namespace Store\Frontend\Models;
+
+class Predicted extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -12,40 +13,58 @@ class Users extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var string
+     * @var integer
      */
-    public $nick;
-
-    /**
-     *
-     * @var string
-     */
-    public $passwd;
+    public $qishu;
 
     /**
      *
      * @var integer
      */
-    public $reg_time;
+    public $one;
 
     /**
      *
      * @var integer
      */
-    public $login_time;
+    public $two;
+
+    /**
+     *
+     * @var integer
+     */
+    public $three;
+
+    /**
+     *
+     * @var integer
+     */
+    public $four;
+
+    /**
+     *
+     * @var integer
+     */
+    public $five;
+
+    /**
+     *
+     * @var integer
+     */
+    public $six;
+
+    /**
+     *
+     * @var integer
+     */
+    public $seven;
 
     /**
      *
      * @var string
      */
-    public $login_ip;
-    /**
-     * 
-     * ³õÊ¼»¯
-     */
-    public function initialize(){
-        $this->useDynamicUpdate(true);
-    }
+    public $calc;
+
     /**
      * Returns table name mapped in the model.
      *
@@ -53,14 +72,14 @@ class Users extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'users';
+        return 'predicted';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Users[]
+     * @return Predicted[]
      */
     public static function find($parameters = null)
     {
@@ -71,7 +90,7 @@ class Users extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Users
+     * @return Predicted
      */
     public static function findFirst($parameters = null)
     {
