@@ -1,10 +1,11 @@
 <?php
 namespace Store\Frontend\Controllers;
 
+use Store\Frontend\Models\Lottery;
 /*
  * 彩票管理
  */
-class LotteryController extends ControllerAuth
+class LotteryController extends ControllerBase
 {
     public $data = array(
         0=>array(
@@ -54,43 +55,39 @@ class LotteryController extends ControllerAuth
         
     }
     
-    public function actionShow(){
+    public function showAction(){
        
     }
     
     /**
      * ajax获得数据
      */
-    public function actionGdata(){
-        	
-        $sql = "insert into lottery(`qishu`,`kdate`,`one`,`two`,`three`,`four`,`five`,`six`,`seven`) values(";
-        	
-        /* if(!empty($_GET)){
-            $data = $_GET;
-            	
-            foreach($data as $key=>$val){
-                	
-                //echo $key."---";
-                if($key=="redBalls"||$key=="blueBalls"){
-    
-                    $str = $this->getNum($data[$key]);
-                    if(is_array($str)){
-                        foreach($str as $v){
-                            $sql .= "'{$v}'".",";
-                        }
-                    }else{
-                        $sql .= "'{$str}'";
-                    }
-                }else{
-                    $sql .= "'{$val}'".",";
-                }
-                	
+    public function getdataAction(){
+        
+        if (!empty($this->request->hasQuery('qishu'))){
+            $lottery =new Lottery();
+            $lottery->qishu = $this->request->getQuery('qishu');
+            $lottery->kdate = $this->request->getQuery('dates');
+            $redstr = $this->request->getQuery('redBalls');
+            $bluestr = $this->request->getQuery('blueBalls');
+            $red = $this->getNum($redstr);
+            $blue = $this->getNum($bluestr);
+            $lottery->one = $red[0];
+            $lottery->two = $red[1];
+            $lottery->three = $red[2];
+            $lottery->four = $red[3];
+            $lottery->five = $red[4];
+            $lottery->six = $red[5];
+            $lottery->seven = $blue[0];
+            
+            if ( $lottery->create() ){
+                echo $_GET['jsoncallback']."(insert a data)";
             }
-            $sql = trim($sql,",");
-            $sql .= ")";
-
-    
-        } */
+        }else{
+            echo "no data";
+        }
+        $this->view->disable();
+        
     }
     
     public function getNum($str=""){
