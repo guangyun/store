@@ -53,6 +53,62 @@ class LotteryController extends ControllerAuth
         var_dump($this->methodOne($arr[2]));
         
     }
+    
+    public function actionShow(){
+       
+    }
+    
+    /**
+     * ajax获得数据
+     */
+    public function actionGdata(){
+        	
+        $sql = "insert into lottery(`qishu`,`kdate`,`one`,`two`,`three`,`four`,`five`,`six`,`seven`) values(";
+        	
+        /* if(!empty($_GET)){
+            $data = $_GET;
+            	
+            foreach($data as $key=>$val){
+                	
+                //echo $key."---";
+                if($key=="redBalls"||$key=="blueBalls"){
+    
+                    $str = $this->getNum($data[$key]);
+                    if(is_array($str)){
+                        foreach($str as $v){
+                            $sql .= "'{$v}'".",";
+                        }
+                    }else{
+                        $sql .= "'{$str}'";
+                    }
+                }else{
+                    $sql .= "'{$val}'".",";
+                }
+                	
+            }
+            $sql = trim($sql,",");
+            $sql .= ")";
+
+    
+        } */
+    }
+    
+    public function getNum($str=""){
+        $arr = array();
+        preg_match_all("/<\/?\w+>(\d+)/i",$str,$arr);
+        if(empty($arr)){
+            echo "error";
+            return false;
+        }
+        if(count($arr[1])==2){
+            $blue = "";
+            foreach($arr[1] as $val){
+                $blue .= $val.",";
+            }
+            return trim($blue,",\t\n\r");
+        }
+        return $arr[1];
+    }
        
     public function methodOne($arrs = array()){
         $arr = array();
