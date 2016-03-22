@@ -3,6 +3,7 @@ namespace Store\Frontend\Controllers;
 
 use Store\Frontend\Models\Lottery;
 use Store\Extensions\HTTP;
+use Phalcon\Db\RawValue;
 /*
  * 彩票管理
  */
@@ -68,7 +69,7 @@ class LotteryController extends ControllerBase
         
         if (!empty($this->request->hasPost('qishu'))){
             $lottery =new Lottery();
-            $lottery->qishu = $this->request->getPost('qishu');
+            $lottery->qishu = new RawValue($this->request->getPost('qishu'));
             $lottery->kdate = $this->request->getPost('dates');
             $redstr = $this->request->getPost('redBalls');
             $bluestr = $this->request->getPost('blueBalls');
