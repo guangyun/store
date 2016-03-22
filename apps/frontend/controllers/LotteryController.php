@@ -2,6 +2,7 @@
 namespace Store\Frontend\Controllers;
 
 use Store\Frontend\Models\Lottery;
+use Store\Extensions\HTTP;
 /*
  * 彩票管理
  */
@@ -44,20 +45,15 @@ class LotteryController extends ControllerBase
     public $blue;
     
     public function initialize(){
-        //parent::initialize();
-        $this->view->setLayout('login');
+        parent::initialize();
         $this->reds = $this->getAllred();
     }
   
     public function indexAction()
     {
-        //$this->view->disable();
-        $this->tag->setTitle('彩票首页');
-        
-       /*  $this->view->disable();*/
+        $this->view->disable();
         $arr = $this->data;
-        //var_dump($this->methodOne($arr[2])); 
-        $this->view->name = $arr;
+        var_dump($this->methodOne($arr[2]));
         
     }
     
@@ -86,15 +82,22 @@ class LotteryController extends ControllerBase
             $lottery->six = $red[5];
             $lottery->seven = $blue[0];
             
-            if ( $lottery->create() ){
-                //echo $_GET['jsoncallback']."(insert a data)";
-                echo 123;
+            if ( $lottery->save() ){
+                echo $_GET['jsoncallback']."(insert a data)";
+            }else{
+                echo 'failed';
             }
         }else{
             echo "no data";
         }
-        $this->view->disable();
-        
+        $this->view->disable();       
+    }
+    
+    public function contentAction(){
+        $this->assets->addJs("/js/data.js");
+        $str = HTTP::get("http://baidu.lecai.com/lottery/draw/list/50?type=latest&num=50");
+        preg_match("/<!--双色球历史开奖列表 S-->([\S\s]+)<!--双色球历史开奖列表 E-->/", $str,$arr);
+        $this->view->content = $arr[1];
     }
     
     public function getNum($str=""){
@@ -200,3 +203,4 @@ class LotteryController extends ControllerBase
 	}
 }
 
+?>
