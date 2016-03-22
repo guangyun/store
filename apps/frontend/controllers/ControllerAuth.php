@@ -4,9 +4,8 @@ namespace Store\Frontend\Controllers;
 class ControllerAuth extends ControllerBase
 {
 
-    public function initialize()
+    public function beforeExecuteRoute()
     {
-        
         if (!$this->session->has('back-auth')) {             
            $this->response->redirect('frontend/login/login');
         }else{
@@ -23,7 +22,6 @@ class ControllerAuth extends ControllerBase
                 $this->forwards('login/newlogin/nickname/'.$user['nick']);
             }
         }        
-        parent::initialize();
     }
 }
 

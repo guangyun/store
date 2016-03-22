@@ -44,14 +44,20 @@ class LotteryController extends ControllerBase
     public $blue;
     
     public function initialize(){
+        //parent::initialize();
+        $this->view->setLayout('login');
         $this->reds = $this->getAllred();
     }
   
     public function indexAction()
     {
-        $this->view->disable();
+        //$this->view->disable();
+        $this->tag->setTitle('彩票首页');
+        
+       /*  $this->view->disable();*/
         $arr = $this->data;
-        var_dump($this->methodOne($arr[2]));
+        //var_dump($this->methodOne($arr[2])); 
+        $this->view->name = $arr;
         
     }
     
@@ -64,12 +70,12 @@ class LotteryController extends ControllerBase
      */
     public function getdataAction(){
         
-        if (!empty($this->request->hasQuery('qishu'))){
+        if (!empty($this->request->hasPost('qishu'))){
             $lottery =new Lottery();
-            $lottery->qishu = $this->request->getQuery('qishu');
-            $lottery->kdate = $this->request->getQuery('dates');
-            $redstr = $this->request->getQuery('redBalls');
-            $bluestr = $this->request->getQuery('blueBalls');
+            $lottery->qishu = $this->request->getPost('qishu');
+            $lottery->kdate = $this->request->getPost('dates');
+            $redstr = $this->request->getPost('redBalls');
+            $bluestr = $this->request->getPost('blueBalls');
             $red = $this->getNum($redstr);
             $blue = $this->getNum($bluestr);
             $lottery->one = $red[0];
@@ -81,7 +87,8 @@ class LotteryController extends ControllerBase
             $lottery->seven = $blue[0];
             
             if ( $lottery->create() ){
-                echo $_GET['jsoncallback']."(insert a data)";
+                //echo $_GET['jsoncallback']."(insert a data)";
+                echo 123;
             }
         }else{
             echo "no data";

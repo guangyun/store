@@ -7,7 +7,8 @@ use Phalcon\Mvc\Controller;
 class ControllerBase extends Controller
 {
    
-    public function initialize() {
+    public function onConstruct() {
+        
         $this->assets->addCss('frontend/css/bootstrap.min.css')
                      ->addCss('frontend/css/font-awesome.min.css')
                      ->addCss('frontend/css/animate.min.css')
