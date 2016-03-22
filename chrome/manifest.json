@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "百度彩票",
+  "description": "获取彩票数据",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+	"http://baidu.lecai.com/"	
+  ],
+  //"content_security_policy":"script-src 'self' http://app.jiazheng.com/; object-src 'self'",
+  "content_scripts": [{
+       "matches": ["http://baidu.lecai.com/lottery/draw/list/50?type=latest&num=50"],   
+       "js": ["jquery.min.js","popup.js"],   
+       "run_at": "document_end"
+  }] 
+}
