@@ -9,7 +9,6 @@ class LoginController extends ControllerBase
 
    public function initialize(){
        $this->view->setLayout('login');
-       parent::initialize();
    }
 
     public function loginAction()
