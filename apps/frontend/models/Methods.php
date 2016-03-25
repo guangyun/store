@@ -2,6 +2,7 @@
 
 namespace Store\Frontend\Models;
 
+use Store\Extensions\Funs;
 class Methods extends \Phalcon\Mvc\Model
 {
 
@@ -71,6 +72,10 @@ class Methods extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+    
+    public function getAll() {
+        return Funs::getTree(self::find()->toArray());
     }
 
 }

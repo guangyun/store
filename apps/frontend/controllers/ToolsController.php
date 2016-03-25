@@ -10,6 +10,7 @@ class ToolsController extends ControllerAuth
     */
     public function indexAction()
     {
+        $data =;
         
     }
     
@@ -54,10 +55,21 @@ class ToolsController extends ControllerAuth
     }
     
     /*
-     * 编辑模块
+     * 删除方法
      */
     public function deleteAction() {
-        ;
+        $id = $this->request->get('id','int');
+        $obj = Methods::findFirst($id);
+        if ($obj->pid!=0){
+            foreach (Methods::find(array('condition'=>"id in({$obj->children})")) as $method){
+                $method->delete();
+            }
+            echo "suc";
+        }else {
+            if ($obj->delete()){
+                echo "suc";
+            }
+        }
     }
     
     
