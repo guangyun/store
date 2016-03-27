@@ -23,5 +23,18 @@ class ControllerAuth extends ControllerBase
             }
         }        
     }
+    
+    public function initialize(){
+        $this->view->setLayout('login');
+    }
+    
+    
+    public function  beforeCheckAcl(){
+        
+    }
+    
+    public function checkAcl($param) {
+        ;
+    }
 }
 

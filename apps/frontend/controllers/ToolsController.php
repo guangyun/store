@@ -4,14 +4,10 @@ namespace Store\Frontend\Controllers;
 use Store\Frontend\Models\Methods;
 class ToolsController extends ControllerAuth
 {
-
-   /*
-    * 后台左侧
-    */
-    public function indexAction()
-    {
-        $data =;
-        
+    
+    public function listAction(){
+        $data = Methods::find(array("order"=>'id,pid'))->toArray();
+        $this->view->data = $data;
     }
     
     /*
@@ -24,6 +20,7 @@ class ToolsController extends ControllerAuth
             $list->alias = $this->request->getPost('alias',"string");
             $list->pid = $this->request->getPost('pid',"int");
             $list->children = 0;
+            $list->show = $this->request->getPost('show',"int");
             $id = $list->create();
             if ( $list->pid!=0 ){
                 $ids = Methods::find(array("columns"=>"id","condition"=>"id=".$list->pid));
@@ -32,10 +29,12 @@ class ToolsController extends ControllerAuth
                 $ids->save();
             }
         }
+        $pid = $this->request->has('pid')?$this->request->get('pid','int'):0;
+        $this->view->pid = $pid;
     }
 
     /*
-     * 添加模块
+     * 编辑模块
      */
     public function editAction() {
         if ($this->request->hasQuery('id')){
@@ -49,6 +48,7 @@ class ToolsController extends ControllerAuth
             $data = Methods::findFirst("id=".$id);
             $data->method = $this->request->getPost('method','string');
             $data->method = $this->request->getPost('alias','string');
+            $list->show = $this->request->getPost('show',"int");
             $data->save();
         }
             

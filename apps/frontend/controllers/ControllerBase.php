@@ -9,18 +9,19 @@ class ControllerBase extends Controller
    
     public function onConstruct() {
         
-        $this->assets->addCss('frontend/css/bootstrap.min.css')
-                     ->addCss('frontend/css/font-awesome.min.css')
-                     ->addCss('frontend/css/animate.min.css')
-                     ->addCss('frontend/css/style.min.css');
-        $this->assets->addJs('frontend/js/jquery.min.js')
-                     ->addJs('frontend/js/bootstrap.min.js')
-                     ->addJs('frontend/js/plugins/metisMenu/jquery.metisMenu.js')
-                     ->addJs('frontend/js/plugins/slimscroll/jquery.slimscroll.min.js')
-                     ->addJs('frontend/js/plugins/layer/layer.min.js')
-                     ->addJs('frontend/js/hplus.min.js')
-                     ->addJs('frontend/js/contabs.min.js')
-                     ->addJs('frontend/js/plugins/pace/pace.min.js');
+        $this->assets->addCss('front/css/bootstrap.min.css')
+                     ->addCss('front/css/font-awesome.min.css')
+                     ->addCss('front/css/animate.min.css')
+                     ->addCss("/front/css/plugins/iCheck/custom.css")
+                     ->addCss('front/css/style.min.css');
+        $this->assets->addJs('front/js/jquery.min.js')
+                     ->addJs('front/js/bootstrap.min.js')
+                     ->addJs('front/js/plugins/metisMenu/jquery.metisMenu.js')
+                     ->addJs('front/js/plugins/slimscroll/jquery.slimscroll.min.js')
+                     ->addJs('front/js/plugins/layer/layer.min.js')
+                     ->addJs('front/js/hplus.min.js')
+                     ->addJs('front/js/contabs.min.js');
+                     
     }
         
     public function forwards($uri)

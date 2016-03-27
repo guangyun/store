@@ -28,6 +28,10 @@ class Roles extends \Phalcon\Mvc\Model
      * @var string
      */
     public $Privilege;
+    
+    public function initialize(){
+        $this->hasMany('id', 'Store\Frontend\Models\Admins', 'gid');
+    }
 
     /**
      * Returns table name mapped in the model.

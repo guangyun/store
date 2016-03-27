@@ -52,6 +52,10 @@ class Admins extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $gid;
+    
+    public function initialize(){
+        $this->belongsTo('gid', "Store\Frontend\Models\Roles", 'id');
+    }
 
     /**
      * Returns table name mapped in the model.
