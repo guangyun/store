@@ -1,6 +1,7 @@
 <?php
 namespace Store\Frontend\Controllers;
 
+use Phalcon\Mvc\View;
 class ControllerAuth extends ControllerBase
 {
 
@@ -25,7 +26,7 @@ class ControllerAuth extends ControllerBase
     }
     
     public function initialize(){
-        $this->view->setLayout('login');
+        $this->view->setRenderLevel(View::LEVEL_LAYOUT)->setLayout('login');
     }
     
     
