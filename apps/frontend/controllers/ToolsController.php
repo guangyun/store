@@ -3,16 +3,23 @@ namespace Store\Frontend\Controllers;
 
 use Store\Frontend\Models\Methods;
 use Phalcon\Mvc\View;
+use Phalcon\Paginator\Adapter\Model;
 
 class ToolsController extends ControllerAuth
 {
 
-    public function listAction()
+    public function indexAction()
     {
-        $data = Methods::find(array(
-            "order" => 'id,pid'
-        ))->toArray();
-        $this->view->data = $data;
+        $data = Methods::find(array('limit'=>array("offset"=>0,"number"=>10)));
+        $cpage = $this->request->get('page','int');
+        $pagination = new Model(array(
+            'data'=>$data,
+            'page'=>$cpage,
+            'limit'=>10
+        ));       
+        $page = $pagination->getPaginate();
+        $this->view->page = $page;
+        
     }
 
     /*

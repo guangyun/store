@@ -26,7 +26,7 @@ class ControllerAuth extends ControllerBase
     }
     
     public function initialize(){
-        $this->view->setRenderLevel(View::LEVEL_LAYOUT)->setLayout('login');
+        $this->view->setLayout('login');
     }
     
     

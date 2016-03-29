@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="ibox-content">
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>方法名</th>
+						<th>方法别名</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($page->items as $item){?>
+					<tr>
+						<td><?php echo $item->id;?></td><td><?php echo $item->method;?></td><td><?php echo $item->alias;?></td><td><?php echo $item->pid==0?'添加':'';?>|编辑|删除</td>
+					</tr>	
+				<?php }?>	
+				<tr><td colspan="4">
+				    <?php $url = $this->url->get("/frontend/tools/index");?>
+				    <a href="<?php echo $url;?>">First</a>
+                    <a href="<?php echo $url;?>?page=<?= $page->before; ?>">Previous</a>
+                    <a href="<?php echo $url;?>?page=<?= $page->next; ?>">Next</a>
+                    <a href="<?php echo $url;?>?page=<?= $page->last; ?>">Last</a>
+				    
+				
+				</td></tr>			
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
