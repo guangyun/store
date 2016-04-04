@@ -45,33 +45,47 @@ class Paginator
             $active = $i==$this->current?"class='selected'":'';
             $this->html .= "<li ".$active."><a href='".$url.$i."'>".$i."</a></li>";
         }
+        return $html;
     }
     
-    public static function getPre(){
-        
+    public static function getPre($page){
+        $page = $page - 1;
+        if ($page<=1){
+            $page = 1;
+        }
+        return $html = "<li class='pre'><a href=".$url.page."></a></li>";
     }
     
-    public static function getNext(){
-        
+    public static function getNext($page,$total){
+        $page = $page+1;
+        if ($page>$total){
+            $page= $total;
+        }
+        return $html = "<li class='next'><a href=".$url.page."></a></li>";
     }
     
     public static function getFirst(){
-        
+        return $html = "<li class='firsrt'><a href='".$url."1'></a></li>";
     }
     
-    public static function getLast(){
-        
+    public static function getLast($total){
+        return $html = "<li class='last'><a href='".$url.$total."'></a></li>";
     }
 
-    public static function getTotal() {
-        
+    public static function getTotal($obj,$condition = array()) {
+        return obj::find($condition)->count();
     }
     
-    public static function getItems(){
-        
+    public static function getItems($obj,$condition = array()){
+        $condition = array_merge($condition,array('limit'=>array('offset'=>$page,'limit'=>$this->limit)));
+        return obj::find($condition)->toArray();
     }
     
     public static function getUrl(){
-        
+        $host = $_SERVER['HTTP_HOST'];
+        $param = $_REQUEST;
+        unset($param['page']);
+        $pstr = http_build_query($param);
+        return $host.$pstr."&page=";
     }
 }

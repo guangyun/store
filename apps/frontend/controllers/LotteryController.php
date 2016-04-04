@@ -17,7 +17,7 @@ class LotteryController extends ControllerBase
             'three'=>'10',
             'four'=>'19',
             'five'=>'23',
-            'six'=>'33',
+            'six'=>'29',
             'seven'=>'03'
         ),
         1=>array(
@@ -31,13 +31,13 @@ class LotteryController extends ControllerBase
             'seven'=>'12'
         ),        
         2=>array(
-            'qishu'=>'2016030',
+            'qishu'=>'2016029',
             'one'=>'12',
             'two'=>'15',
             'three'=>'18',
             'four'=>'20',
             'five'=>'21',
-            'six'=>'27',
+            'six'=>'29',
             'seven'=>'15'
         ),        
     );
@@ -46,7 +46,6 @@ class LotteryController extends ControllerBase
     public $blue;
     
     public function initialize(){
-        parent::initialize();
         $this->reds = $this->getAllred();
     }
   
@@ -54,13 +53,23 @@ class LotteryController extends ControllerBase
     {
         $this->view->disable();
         $arr = $this->data;
-        var_dump($this->methodOne($arr[2]));
+        var_dump($this->methodThree($arr));
+
         
     }
     
     public function showAction(){
        
     }
+    //七：开奖日期为下期杀号，注：如果连续准确7期必须放弃此规律，转成选号。
+    //九：开奖的蓝号，乘05加02，所得的值为下期杀号。
+    
+   // 十：开奖的蓝号为双数时，乘上2，再加02，计算的结果在下一期不出， 到目前为止，此条件无错误。如：蓝06X2+2=14，下期红球杀14.3
+    //十一：开奖第5个红球加5，所得的值为下期杀号。比较准。
+    
+   // 十二：34减去第一个红球，所得的值为下期杀号。
+    
+    //十三：34减去开奖的第三个红球，所得出来的值再加7，结果下期不会出。
     
     /**
      * ajax获得数据
@@ -134,23 +143,60 @@ class LotteryController extends ControllerBase
 		sort($res);
 		return $res;
 	}
-	public function methodTwo(){
-		
+	
+	/*计算红球各个位数的和*/
+	public function methodTwo($arr){
+	    $blues = $this->getReds($arr);
+	    $arr = array();
+	    foreach ($blues as $val){
+	        $new = str_split($val);
+	        $arr = array_merge($new,$arr);
+	    }
+	    
+	    return array_sum($arr)>33?42-array_sum($arr):array_sum($arr);		
 	}
-	public function methodThree(){
-		
+	//杀掉连续出现3次的
+	public function methodThree($data){
+	    $arr = array();
+		foreach($data as $val){
+		    foreach ($val as $v){
+		        $arr[] = $v;
+		    }
+		}
+		$contain = array();
+		$count = array();
+		foreach($arr as $v){
+		    if (array_key_exists($v, $contain)){
+		        $contain[$v]++;
+		        if ($contain[$v]>=3){
+		            $count[] = $v;
+		        }
+		    }else {
+		        $contain[$v]=1;
+		    }
+		}
+		return $count;
 	}
-	public function methodFour(){
-		
+	//54减去第三个红球
+	public function methodFour($arr){
+		return 54-$arr['three'];
 	}
-	public function methodFive(){
-		
+	//开奖红球最大的号码减去红球最小的号码，所得的值为下期杀号
+	public function methodFive($arr){
+	    $data = $this->getReds($arr);
+	    return max($data)-min($data);
 	}
-	public function methodSix(){
-		
+	//最大的红球减去当期蓝球，所得的值为下期杀号
+	public function methodSix($arr){
+	    $data = $this->getReds($arr);
+	    return max($data)-$arr['seven'];
 	}
-	public function methodSeven(){
-		
+	//开奖的号码总和加起的结果拆分再加，所得的值为下期杀号。如：总和为114的，1+1+4=6.  那么.6为下期杀号。
+	public function methodSeven($arr){
+		unset($arr['qishu']);
+		$num = array_sum($arr);
+		$arr = str_split($num);
+		return array_sum($arr);
 	}
 	public function methodEight(){
 		
