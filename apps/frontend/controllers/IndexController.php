@@ -5,6 +5,7 @@ namespace Store\Frontend\Controllers;
 use Phalcon\Mvc\View;
 use Store\Frontend\Models\Methods;
 use Store\Extensions\Funs;
+use Phalcon\Mvc\Model;
 class IndexController extends ControllerAuth
 {
     /*
@@ -20,9 +21,16 @@ class IndexController extends ControllerAuth
     }
     
     public function sysinfoAction() {        
+        $condition = "show!=0";
+        $obj = Methods();
+        $res = $this->obj($obj, $condition);
+        var_dump($res);
+        $this->view->disable();
         
     }
 
-    
+    public function obj($obj,$condition) {
+        return $obj::find($condition)->toArray();
+    }
 }
 
