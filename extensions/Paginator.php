@@ -1,6 +1,7 @@
 <?php
 namespace Store\Extensions;
 
+use Phalcon\Http\Request;
 /**
  * 常用类
  */
@@ -19,73 +20,113 @@ class Paginator
     //当前页
     protected $current;
     
-    public $html;
+    public $url;
+    
+    public  $condition;
     
     
-    public function __construct($obj,$config=array()) {
+    
+    public function __construct($obj,$config=array(),$condition=array()) {
         if (empty($config)){
             $this->buttons = 10;
             $this->limit = 20;
+        }else{
+            $this->buttons = $config['buttons'];
+            $this->limit = $config['limit'];
         }
-        $this->buttons = $config['buttons'];
-        $this->limit = $config['limit'];
+        $this->condition = $condition;
         $this->obj = $obj;
-        $this->html = "<ul id='pages'>";
-        $this->current = intval($_REQUEST['page']);
+        $this->current = isset($_REQUEST['page'])?intval($_REQUEST['page']):1;
+        $this->url = $this->getUrl();
     }
     
-    public static function getPages(){
+    public function getPages(){
         $count = $this->obj->find()->count();
         $this->total = round($count/$this->limit);
         $center = ceil($this->buttons/2);
         $start = $this->buttons>$this->total?1:($this->current-$center);
         $start = $start<=1?1:$start;
         $end = $this->buttons>$this->total?$this->total:($this->current+$center);
+        $html = '';
         for($i=$this->start;$i<$end;$i++){
             $active = $i==$this->current?"class='selected'":'';
-            $this->html .= "<li ".$active."><a href='".$url.$i."'>".$i."</a></li>";
+            $html .= "<li ".$active."><a href='".$this->url.$i."'>".$i."</a></li>";
         }
         return $html;
+       
     }
     
-    public static function getPre($page){
-        $page = $page - 1;
+    public function getPre($str=""){
+        $str = !empty($str)?$str:"pre";
+        $page = $this->current - 1;
         if ($page<=1){
             $page = 1;
         }
-        return $html = "<li class='pre'><a href=".$url.page."></a></li>";
+        return "<li class='pre'><a href=".$this->url.$page.">".$str."</a></li>";
     }
     
-    public static function getNext($page,$total){
-        $page = $page+1;
-        if ($page>$total){
-            $page= $total;
+    public  function getNext($str=""){
+        $str = !empty($str)?$str:"next";
+        $page = $this->current+1;
+        if ($page>$this->total){
+            $page= $this->total;
         }
-        return $html = "<li class='next'><a href=".$url.page."></a></li>";
+        return "<li class='next'><a href=".$this->url.$page.">".$str."</a></li>";
     }
     
-    public static function getFirst(){
-        return $html = "<li class='firsrt'><a href='".$url."1'></a></li>";
+    public  function getFirst($str=""){
+        $str = !empty($str)?$str:"first";
+        return "<li class='firsrt'><a href='".$this->url."1'>".$str."</a></li>";
     }
     
-    public static function getLast($total){
-        return $html = "<li class='last'><a href='".$url.$total."'></a></li>";
+    public  function getLast($str=""){
+        $str = !empty($str)?$str:"last";
+        return "<li class='last'><a href='".$this->url.$this->total."'>".$str."</a></li>";
     }
 
-    public static function getTotal($obj,$condition = array()) {
-        return obj::find($condition)->count();
+    public  function getTotal() {
+        $obj = $this->obj;
+        return $obj::find($this->condition)->count();
     }
     
-    public static function getItems($obj,$condition = array()){
-        $condition = array_merge($condition,array('limit'=>array('offset'=>$page,'limit'=>$this->limit)));
-        return obj::find($condition)->toArray();
+    public function getItems(){
+        $condition = $this->condition;
+        $obj = $this->obj;
+        $page = $this->current*$this->limit;
+        $condition = array_merge($condition,array('limit'=>array('number'=>$page,'limit'=>$this->limit)));
+        return $obj::find($condition)->toArray();
     }
     
-    public static function getUrl(){
-        $host = $_SERVER['HTTP_HOST'];
-        $param = $_REQUEST;
-        unset($param['page']);
+    public function getUrl(){
+        $req = new Request();
+        $param = $req->get();
+        $url = $param['_url'];
+        unset($param['_url']);        
+        if (isset($param['page'])){
+            unset($param['page']);
+        }
         $pstr = http_build_query($param);
-        return $host.$pstr."&page=";
+        $sysbol = "&";
+        if (empty($pstr)){
+            $sysbol = "?";
+        }
+        return $url.$pstr.$sysbol."page=";
+    }
+    
+    public function showpage($config = array()) {
+        $html = "<ul id='pages'>";
+        if (empty($config)){
+            $html .= $this->getFirst().$this->getPre().$this->getPages().$this->getNext().$this->getLast();
+        }else{
+            foreach ($config as $key=>$val){
+                $html .= $this->$key($val);
+            }
+        }        
+        $html .= "</ul>";
+        if($this->total>$this->limit){
+            return $html;
+        }else{
+            return '';
+        }
     }
 }
