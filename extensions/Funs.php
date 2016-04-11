@@ -9,9 +9,19 @@ class Funs
 
     public static  function getTree5($items)
     {
-        foreach ($items as $item)
-            $items[$item['pid']]['son'][$item['id']] = &$items[$item['id']];
-        return isset($items[0]['son']) ? $items[0]['son'] : array();
+        $tree = array();
+        foreach ($items as $item){
+            $tree[$item['id']] = $item;
+            $tree[$item['id']]['son'] = array();
+        }
+        foreach ($tree as $k=>$i){
+            if($i['pid']!=0){
+                $tree[$i['pid']]['son'][] = &$tree[$k];
+                unset($tree[$k]);
+            }
+        }
+        return $tree;
+       
     }
 
     /**
