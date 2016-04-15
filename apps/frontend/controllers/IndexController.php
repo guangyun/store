@@ -4,6 +4,8 @@ namespace Store\Frontend\Controllers;
 
 use Store\Frontend\Models\Methods;
 use Store\Extensions\Funs;
+use Phalcon\Validation\Validator\File;
+use Phalcon\Validation;
 class IndexController extends ControllerAuth
 {
     /*
@@ -32,12 +34,20 @@ class IndexController extends ControllerAuth
         $this->tag->setTitle("系统设置");
         if (file_exists(APP_PATH."/sys/lock")){
             $this->response->redirect('frontend/index/sysinfo');
+            exit;
         }
         if ($this->request->isAjax()){
             $sys = array();
-            if ($this->request->has('logo')){
+            if ($this->request->hasFiles()){
+                foreach ($this->request->getUploadedFiles() as $file){
+                    $name = $file->getName();
+                    $size = $file->getSize();
+                    $type = $file->getType();
+                    $validate = new Validation();
+                    $file = new \Phalcon\Http\Request\File();
+                }
                 //图片验证
-                $this->filter->sanitize();
+                //$this->filter->sanitize();
                 //图片宽度重置
                 //图片名称重置
             }else{
