@@ -4,14 +4,14 @@ use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
 
-define('APP_PATH', realpath('..'));
+defined('APP_PATH') || define('APP_PATH', realpath('..'));
 
 try {
 
     /**
      * Read the configuration
      */
-    $config = include APP_PATH . "/apps/frontend/config/config.php";
+    $config = include APP_PATH . "/apps/qttown/config/config.php";
 
     /**
      * Include services
@@ -39,7 +39,7 @@ try {
     require __DIR__ . '/../config/loader.php';
 
     echo $application->handle()->getContent();
-    
+
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';

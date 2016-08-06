@@ -3,9 +3,9 @@
 return new \Phalcon\Config(array(
     'database' => array(
         'adapter'  => 'Mysql',
-        'host'     => '192.168.11.102',
+        'host'     => 'localhost',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'dbname'   => 'phalcon',
         'charset'  => 'utf8',
     ),
@@ -14,7 +14,8 @@ return new \Phalcon\Config(array(
         'modelsDir'      => __DIR__ . '/../models/',
         'migrationsDir'  => __DIR__ . '/../migrations/',
         'viewsDir'       => __DIR__ . '/../views/',
-        'plugnsDir'      => APP_PATH .'/apps/plugns',
-        'baseUri'        => '/store/'
+        'plugnsDir'      => APP_PATH .'/apps/plugns/',
+        //'baseUri'        => '/store/'
+        'baseUri'        => '/'
     )
 ));

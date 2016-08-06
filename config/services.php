@@ -27,8 +27,8 @@ $di = new FactoryDefault();
 $di->setShared('router', function () {
     $router = new Router();
 
-    $router->setDefaultModule('frontend');
-    $router->setDefaultNamespace('Store\Frontend\Controllers');
+    $router->setDefaultModule('qttown');
+    $router->setDefaultNamespace('Store\Qttown\Controllers');
 
     return $router;
 });
